@@ -18,7 +18,7 @@ Eat-Da-Burger! is a restaurant app that lets users input the names of burgers th
 
 * Open your browser and go to
 
-  `http://localhost:8080`
+  `http://localhost:3000`
 
   ![Eat-Da-Burger Screnshot](./public/assets/eat-da-burger.png)
 

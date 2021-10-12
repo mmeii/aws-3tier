@@ -1,25 +1,17 @@
-// Set up MySQL connection.
-const mysql = require("mysql");
+// Set up postgre connection to aws.
+const { Client } = require("pg");
 
-if (process.env.JAWSDB_URL) {
-    connection = mysql.createConnection(process.env.JAWSDB_URL);
-} else {
-    connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'root',
-        database: "burgers_db"
-    });
-}
-
-// Make connection.
-connection.connect(function (err) {
-    if (err) {
-        console.error("error connecting: " + err.stack);
-        return;
-    }
-    console.log("connected as id " + connection.threadId);
-});
+const client = new Client({
+    user: 'postgres',
+    host: 'bhuvana-mei-3tier.ch1ywcw8giyd.us-east-1.rds.amazonaws.com',
+    database: 'ToDoList',
+    password: '3tierbhuvanamei',
+    port: 5432,
+  })
+  client.connect(function(err) {
+    if (err) throw err;
+    console.log("Connected!");
+  });
 
 // Export connection for our ORM to use.
-module.exports = connection;
+module.exports = client;
