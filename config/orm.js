@@ -2,13 +2,16 @@
 const connection = require("../config/connection.js");
 
 // helper function for SQL syntax
-function printQuestionMarks(num) {
+function prepareValuesForQuery(vals) {
     let arr = [];
 
-    for (let i = 0; i < num; i++) {
-        arr.push("?");
+    for (let i = 0; i < vals.length-1; i++) {
+        tempString = "\'" + vals[i] + "\'";
+        arr.push(tempString);
+        arr.push(false);
     }
 
+    console.log("Prepared values for query",arr.toString());
     return arr.toString();
 };
 
@@ -34,6 +37,8 @@ function objToSql(ob) {
 let orm = {
     all: (tableInput, cb) => {
         const queryString = "SELECT * FROM " + tableInput + ";";
+
+        console.log(queryString);
         connection.query(queryString, (err, result) => {
             if (err) {
                 throw err;
@@ -42,18 +47,27 @@ let orm = {
         });
     },
     create: (table, cols, vals, cb) => {
-        let queryString = "INSERT INTO " + table;
 
-        queryString += " (";
-        queryString += cols.toString();
-        queryString += ") ";
-        queryString += "VALUES (";
-        queryString += printQuestionMarks(vals.length);
-        queryString += ") ";
+        console.log("Values",vals[0]);
+        console.log("Columns",cols);
 
-        console.log(queryString);
+        // let queryString ="INSERT INTO " + table;
 
-        connection.query(queryString, vals, (err, result) => {
+        // queryString += " (";
+        // queryString += cols;
+        // queryString += ") ";
+        // queryString += "VALUES (";
+        // queryString += prepareValuesForQuery(vals);
+        // queryString += "); ";
+
+        // let queryString = "INSERT INTO burger(burger_name, devoured)  VALUES ($1);";
+
+
+        //console.log(queryString);
+
+        //text: 'INSERT INTO burger(burger_name, devoured)  VALUES ($1, $2);', values: ['cheese', false]
+
+        connection.query({text: 'INSERT INTO burger(burger_name, devoured)  VALUES ($1, $2);', values: vals}, (err, result) => {
             if (err) {
                 throw err;
             }

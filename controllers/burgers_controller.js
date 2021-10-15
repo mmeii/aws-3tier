@@ -7,15 +7,16 @@ const burger = require("../models/burger.js");
 //Create the router for the app
 router.get("/", (req, res) => {
     burger.all((data) => {
+        //console.log("data",data);
         let hbsObject = {
-            burgers: data
+            burgers: data.rows
         };
-        console.log(hbsObject);
-        res.render("index", hbsObject);
+        console.log("hbsObject",data.rows);
+        res.render('index', hbsObject);
     });
 });
 
-router.post("/api/burgers", (req, res) => {
+router.post("/api/burgers/", (req, res) => {
     burger.create(
         ["burger_name", "devoured"],
         [req.body.burger_name, req.body.devoured],
@@ -29,6 +30,8 @@ router.put("/api/burgers/:id", (req, res) => {
     const condition = "id = " + req.params.id;
 
     console.log("condition", condition);
+    console.log("req", req);
+    console.log("res", res);
 
     burger.update(
         { devoured: req.body.devoured },

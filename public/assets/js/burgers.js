@@ -1,6 +1,7 @@
 //wait to attach handlers until DOM is fully loaded
 $(function () {
     //function on click, change burger state to devoured_burger
+    //console.log("inside burgers.js");
     $(".devoure-burger").on("click", function (event) {
         let id = $(this).data("id");
         let newState = $(this).data("newstate");
@@ -10,6 +11,8 @@ $(function () {
         };
 
         // send the PUT request
+        console.log("Sending PUT request");
+        console.log("changed state to", newState);
         $.ajax("/api/burgers/" + id, {
             type: "PUT",
             data: newBurgerState
@@ -29,7 +32,9 @@ $(function () {
         };
 
         //send the POST request
-        $.ajax("/api/burgers", {
+        console.log("send POST request");
+        console.log("created new burger");
+        $.ajax("/api/burgers/", {
             type: "POST",
             data: newBurger
         }).then(() => {
@@ -43,6 +48,8 @@ $(function () {
         let id = $(this).data("id");
 
         //send DELETE request
+        console.log("send DELETE request");
+        console.log("deleted burger", id);
         $.ajax("/api/burgers/" + id, {
             type: "DELETE"
         }).then(() => {
