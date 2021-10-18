@@ -1,6 +1,11 @@
 const express = require("express");
 const PORT = process.env.PORT || 5000;
 const app = express();
+const cors = require("cors");
+
+//middleware
+app.use(cors());
+// app.use(express.json()); //req.body
 
 // Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static("public"));
